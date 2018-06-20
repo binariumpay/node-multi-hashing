@@ -206,7 +206,7 @@ inline void HashGenerator_Init () {
     aIntermediateHashFunctions [ 9 ]        = & IntermediateHashFunction_Simd;
     aIntermediateHashFunctions [ 10 ]       = & IntermediateHashFunction_Echo;
     aIntermediateHashFunctions [ 11 ]       = & IntermediateHashFunction_GOST_2012_Streebog;
-    aIntermediateHashFunctions [ 12 ]       = & IntermediateHashFunction_Whirlpool;
+    aIntermediateHashFunctions [ 12 ]       = & IntermediateHashFunction_GOST_2012_Streebog; // IntermediateHashFunction_Whirlpool
     //aIntermediateHashFunctions [ 13 ]       = & IntermediateHashFunction_SWIFFT;
     aIntermediateHashFunctions [ 13 ]       = & IntermediateHashFunction_GOST_2012_Streebog;
 
