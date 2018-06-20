@@ -52,9 +52,20 @@
                 "crypto/hash.c",
                 "crypto/aesb.c",
                 "crypto/wild_keccak.cpp",
+                "binarium_hash_v1.c",
+                "crypto/hashing/streebog/table/stribog.c",
+                "crypto/hashing/whirlpool/whirlpool.c",
+                "crypto/hashing/whirlpool/byte_order.c",
+                "crypto/encryption/gost2015_kuznechik/optimised.c",
+                "crypto/encryption/gost2015_kuznechik/optimised_tables.c",
+                "crypto/encryption/gost2015_kuznechik/shared/tables.c",
+                "crypto/encryption/three_fish/libskein_skein.cc",
+                "crypto/encryption/salsa20/salsa20.c",
+                "open_ssl/camellia/camellia.c",
             ],
             "include_dirs": [
                 "crypto",
+                #"/usr/include/c++/7/"
             ],
             "cflags_cc": [
                 "-std=c++0x"
