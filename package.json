@@ -8,12 +8,13 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/zone117x/node-multi-hashing.git"
+        "url": "https://github.com/binariumpay/node-multi-hashing.git"
     },
     "dependencies" : {
         "bindings" : "*"
     },
     "keywords": [
+        "binarium",
         "scrypt",
         "scryptjane",
         "script-n",
