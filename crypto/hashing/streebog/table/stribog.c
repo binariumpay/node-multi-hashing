@@ -215,7 +215,7 @@ void F(unsigned char *state)
 	memcpy(state,(unsigned char*)return_state,64);
 }
 
-#define KeySchedule(K,i) AddXor512(K,C[i],K); F(K);
+#define KeySchedule(K,i) AddXor512(K,Streebog_C[i],K); F(K);
 
 void E(unsigned char *K,const unsigned char *m, unsigned char *state)
 {
