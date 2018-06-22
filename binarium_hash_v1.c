@@ -3,6 +3,10 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
+//#include <iostream>
+/*#include <node.h>
+#include <node_buffer.h>
+#include <v8.h>*/
 
 #include "x11.h"
 
@@ -255,6 +259,14 @@ uint1024_XOROperator ( const char * _pDestinationData, const uint32_t _iDestinat
 
 
 
+void bin2hex(char *s, const unsigned char *p, size_t len)
+{
+    for (size_t i = 0; i < len; i++)
+        sprintf(s + (i * 2), "%02x", (unsigned int) p[i]);
+}
+
+
+
 void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint32_t len, uint32_t _iTimeFromGenesisBlock )
 {
     /*sph_blake512_context     ctx_blake;
@@ -339,6 +351,8 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
     uint64_t iIndex;
 
     uint32_t i = 0;
+
+    char hash_str[129];
 
 
 
@@ -446,27 +460,40 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
 
     //return hash[10].trim256();
     memcpy ( output, hash[10], 32 );
-	
+
+    bin2hex ( hash_str, ( unsigned char * ) output, 32 );
+    //applog ( LOG_DEBUG, "DEBUG: Binarium_hash_v1_hash_Implementation () : resulting hash : %s.\n", hash_str );
+    //std::
+    //cout << "DEBUG: Binarium_hash_v1_hash_Implementation () : resulting hash : " << hash_str << " .\n";
+    //isolate->ThrowException(Exception::TypeError(
+    //    String::NewFromUtf8(isolate, "Wrong number of arguments")));
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : resulting hash : %s.\n", hash_str );
+
 }
 
 void Binarium_hash_v1_hash(const char* input, char* output, uint32_t len)
 {
     HashGenerator_Init ();
 
+    char Data [ 200 ];
+    memset ( Data, 0, sizeof ( Data ) );
+
     uint32_t iTimeFromGenesisBlock;
     //uint32_t iAlgorithmSelector;
     //uint32_t iHashFunctionsAmount;
-    uint32_t * p_nTime = ( input + 4 + 32 + 32 );
+    //uint32_t * p_nTime = ( input + 4 + 32 + 32 );
+    uint32_t * p_nTime = ( Data + 4 + 32 + 32 );
 
     iTimeFromGenesisBlock = * p_nTime - GenesisBlock_nTime;
     //iHashFunctionsAmount = 2;
     //iAlgorithmSelector = iTimeFromGenesisBlock < 3528000 ? 0 : 1;
 
     //return (this->*(aHashFunctions[iAlgorithmSelector]))( pPrevBlockIndex, iTimeFromGenesisBlock );
-    if ( iTimeFromGenesisBlock >= 3528000 )
-        Binarium_hash_v1_hash_Implementation ( input, output, len, iTimeFromGenesisBlock );
+    //if ( iTimeFromGenesisBlock >= 3528000 ) {
+        //Binarium_hash_v1_hash_Implementation ( input, output, len, iTimeFromGenesisBlock );
+    Binarium_hash_v1_hash_Implementation ( Data, output, len, iTimeFromGenesisBlock );
 
-    else
-        x11_hash ( input, output, len );
+    /*} else
+        x11_hash ( input, output, len );*/
 
 }
