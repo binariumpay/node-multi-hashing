@@ -396,7 +396,7 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
     // jh512    
 
     aIntermediateHashFunctions [ 3 ] ( ( (unsigned char *) uint1024CombinedHashes + 64 ), 64, NULL, uint1024CombinedHashes );
-    bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 64 );
+    bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 128 );
     fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : jh512 : %s.\n", hash_1024_str );
 
 
@@ -441,40 +441,56 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
 
     } //-for
 
-    bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 64 );
+    bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 128 );
     fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : Memory-hard hashing function : %s.\n", hash_1024_str );
 
     //-Whirlpool--------------------------------------
     // keccak512
     aIntermediateHashFunctions [ 4 ] ( uint1024CombinedHashes, 128, NULL, hash[5] );
+    bin2hex ( hash_str, ( unsigned char * ) hash [ 5 ], 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : keccak512 : %s.\n", hash_str );
 
     //-SWIFFT.----------------------------------------
     // luffa512
     aIntermediateHashFunctions [ 6 ] ( hash[5], 64, NULL, hash[6] );
+    bin2hex ( hash_str, ( unsigned char * ) hash [ 6 ], 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : luffa512 : %s.\n", hash_str );
 
     // cubehash512
     aIntermediateHashFunctions [ 7 ] ( hash[6], 64, NULL, hash[7] );
+    bin2hex ( hash_str, ( unsigned char * ) hash [ 7 ], 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : cubehash512 : %s.\n", hash_str );
 
     //-GOST 2015_Kuznechik.---------------------------
     memcpy ( hash [ 6 ], hash [ 7 ], 64 );
     iIndex = ( iWeekNumber + * p_nBits ) % I_AMOUNT_OF_INTERMEDIATE_ENCRYPTION_FUNCTIONS;
     aIntermediateEncryptionFunctions [ iIndex ] ( hash[6], 64, hash[0], hash[7] );
+    bin2hex ( hash_str, ( unsigned char * ) hash [ 7 ], 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : aIntermediateEncryptionFunctions 1 : %s.\n", hash_str );
 
     // shavite512
     aIntermediateHashFunctions [ 8 ] ( hash[7], 64, NULL, hash[8] );
+    bin2hex ( hash_str, ( unsigned char * ) hash [ 8 ], 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : shavite512 : %s.\n", hash_str );
 
     //---ThreeFish.----------------------------------
 
     // simd512
     aIntermediateHashFunctions [ 9 ] ( hash[8], 64, NULL, uint512AdditionalHash );
+    bin2hex ( hash_str, ( unsigned char * ) uint512AdditionalHash, 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : simd512 : %s.\n", hash_str );
 
     iIndex = ( iWeekNumber + * p_nBits + 10 ) % I_AMOUNT_OF_INTERMEDIATE_HASH_FUNCTIONS;
     aIntermediateHashFunctions [ iIndex ] ( uint512AdditionalHash, 64, NULL, hash[9] );
+    bin2hex ( hash_str, ( unsigned char * ) hash [ 9 ], 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : aIntermediateHashFunctions 2 : %s.\n", hash_str );
 
     //---Camellia.-----------------------------------    
 
     // echo512
     aIntermediateHashFunctions [ 10 ] ( hash[9], 64, NULL, hash[10] );
+    bin2hex ( hash_str, ( unsigned char * ) hash [ 10 ], 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : echo512 : %s.\n", hash_str );
 
 
 
