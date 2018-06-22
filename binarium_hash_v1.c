@@ -172,10 +172,10 @@ void IntermediateEncryptionFunction_GOST_2015_Kuznechik ( const void * _pData, c
     //uint64_t iIndex = GetUint64IndexFrom512BitsKey ( _pKey, 0 );
     //iIndex = iIndex % chainActive.Height ();
 
-    encryptBlockWithGost15 ( _pKey, ( unsigned char * ) _pResult );           // _pKey & chainActive [ chainActive.Height () - iIndex ] -> nVersion
-    encryptBlockWithGost15 ( _pData, ( unsigned char * ) _pResult + 16 );     // _pData
-    encryptBlockWithGost15 ( _pKey, ( unsigned char * ) _pResult + 32 );      // _pKey
-    encryptBlockWithGost15 ( _pData, ( unsigned char * ) _pResult + 48 );     // _pData
+    encryptBlockWithGost15 ( _pKey, ( ( unsigned char * ) _pResult ) );           // _pKey & chainActive [ chainActive.Height () - iIndex ] -> nVersion
+    encryptBlockWithGost15 ( _pData, ( ( unsigned char * ) _pResult + 16 ) );     // _pData
+    encryptBlockWithGost15 ( _pKey, ( ( unsigned char * ) _pResult + 32 ) );      // _pKey
+    encryptBlockWithGost15 ( _pData, ( ( unsigned char * ) _pResult + 48 ) );     // _pData
 }
 
 void IntermediateEncryptionFunction_ThreeFish ( const void * _pData, const uint32_t _iDataSize, const void * _pKey, void * _pResult ) {
@@ -342,6 +342,11 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
 
 
 
+    // Important!
+    memset ( hash, 0, sizeof(hash) ); 
+
+
+
     // blake512
     aIntermediateHashFunctions [ 0 ] ( input, len, NULL, hash [ 0 ] );
 
@@ -356,12 +361,12 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
     aIntermediateHashFunctions [ 2 ] ( hash [ 1 ], 64, NULL, hash [ 2 ] );
 
     // skein512
-    aIntermediateHashFunctions [ 5 ] ( hash [ 2 ], 64, NULL, uint1024CombinedHashes + 64 );
+    aIntermediateHashFunctions [ 5 ] ( hash [ 2 ], 64, NULL, ( (unsigned char *) uint1024CombinedHashes + 64 ) );
 
     //-Streebog.--------------------------------------
     // jh512    
 
-    aIntermediateHashFunctions [ 3 ] ( uint1024CombinedHashes + 64, 64, NULL, uint1024CombinedHashes );
+    aIntermediateHashFunctions [ 3 ] ( ( (unsigned char *) uint1024CombinedHashes + 64 ), 64, NULL, uint1024CombinedHashes );
 
 
 
@@ -383,14 +388,14 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
             (
                 //  % I_AMOUNT_OF_BYTES_FOR_MEMORY_HARD_FUNCTION here is to prevent integer overflow
                 // on subsequent addition operation.
-                GetUint64IndexFrom512BitsKey ( uint1024CombinedHashes + 64, 0 ) % I_AMOUNT_OF_BYTES_FOR_MEMORY_HARD_FUNCTION +
+                GetUint64IndexFrom512BitsKey ( ( (unsigned char *) uint1024CombinedHashes + 64 ), 0 ) % I_AMOUNT_OF_BYTES_FOR_MEMORY_HARD_FUNCTION +
                 i * I_PRIME_NUMBER_FOR_MEMORY_HARD_HASHING )
             %
             ( I_AMOUNT_OF_BYTES_FOR_MEMORY_HARD_FUNCTION - 8 * ECRYPT_BLOCKLENGTH );
 
         // From previous encryption result in memory to next encryption result in memory.
         ECRYPT_encrypt_blocks ( & structECRYPT_ctx,
-            uint1024CombinedHashes + 64,
+            ( (unsigned char *) uint1024CombinedHashes + 64 ),
             & ( aMemoryArea [ iWriteIndex ] ),
             1 );  // 8
 
