@@ -352,7 +352,9 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
 
     uint32_t i = 0;
 
+    char block_str[200];
     char hash_str[129];
+    char hash_1024_str[257];
 
 
 
@@ -361,26 +363,41 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
 
 
 
+    bin2hex ( hash_str, ( unsigned char * ) input, 80 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : block_str : %s.\n", block_str );
+
     // blake512
     aIntermediateHashFunctions [ 0 ] ( input, len, NULL, hash [ 0 ] );
+    bin2hex ( hash_str, ( unsigned char * ) hash [ 0 ], 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : blake512 : %s.\n", hash_str );
 
     // bmw512
     aIntermediateHashFunctions [ 1 ] ( hash [ 0 ], 64, NULL, uint512AdditionalHash );
+    bin2hex ( hash_str, ( unsigned char * ) uint512AdditionalHash, 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : bmw512 : %s.\n", hash_str );
 
     iWeekNumber = _iTimeFromGenesisBlock / I_ALGORITHM_RECONFIGURATION_TIME_PERIOD_IN_SECONDS * I_ALGORITHM_RECONFIGURATION_TIME_PERIOD_IN_SECONDS;
     iIndex = ( iWeekNumber + * p_nBits ) % I_AMOUNT_OF_INTERMEDIATE_HASH_FUNCTIONS;
     aIntermediateHashFunctions [ iIndex ] ( uint512AdditionalHash, 64, NULL, hash [ 1 ] );
+    bin2hex ( hash_str, ( unsigned char * ) hash [ 1 ], 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : aIntermediateHashFunctions 1 : %s.\n", hash_str );
 
     // groestl512
     aIntermediateHashFunctions [ 2 ] ( hash [ 1 ], 64, NULL, hash [ 2 ] );
+    bin2hex ( hash_str, ( unsigned char * ) hash [ 2 ], 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : groestl512 : %s.\n", hash_str );
 
     // skein512
     aIntermediateHashFunctions [ 5 ] ( hash [ 2 ], 64, NULL, ( (unsigned char *) uint1024CombinedHashes + 64 ) );
+    bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 128 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : skein512 : %s.\n", hash_1024_str );
 
     //-Streebog.--------------------------------------
     // jh512    
 
     aIntermediateHashFunctions [ 3 ] ( ( (unsigned char *) uint1024CombinedHashes + 64 ), 64, NULL, uint1024CombinedHashes );
+    bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : jh512 : %s.\n", hash_1024_str );
 
 
 
@@ -423,6 +440,9 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
         uint1024_XOROperator ( uint1024CombinedHashes, 64, & ( aMemoryArea [ i * 64 ] ) );
 
     } //-for
+
+    bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 64 );
+    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : Memory-hard hashing function : %s.\n", hash_1024_str );
 
     //-Whirlpool--------------------------------------
     // keccak512
