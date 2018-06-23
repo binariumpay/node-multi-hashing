@@ -56,9 +56,10 @@
                 "crypto/hashing/streebog/table/stribog.c",
                 "crypto/hashing/whirlpool/whirlpool.c",
                 "crypto/hashing/whirlpool/byte_order.c",
-                "crypto/encryption/gost2015_kuznechik/optimised.c",
-                "crypto/encryption/gost2015_kuznechik/optimised_tables.c",
                 "crypto/encryption/gost2015_kuznechik/shared/tables.c",
+                #"crypto/encryption/gost2015_kuznechik/optimised.c",
+                #"crypto/encryption/gost2015_kuznechik/optimised_tables.c",
+                "crypto/encryption/gost2015_kuznechik/compact.c",
                 "crypto/encryption/three_fish/libskein_skein.cc",
                 "crypto/encryption/salsa20/salsa20.c",
                 "open_ssl/camellia/camellia.c",
@@ -68,7 +69,8 @@
                 #"/usr/include/c++/7/"
             ],
             "cflags_cc": [
-                "-std=c++0x"
+                #"-std=c++0x"
+                "-std=c++11"
             ],
         }
     ]
