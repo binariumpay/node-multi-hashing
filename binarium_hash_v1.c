@@ -172,7 +172,7 @@ void IntermediateHashFunction_Whirlpool ( const void * _pData, const uint32_t _i
 }*/
 
 //---Encryption.----------------------------------------------------------------------
-void IntermediateEncryptionFunction_GOST_2015_Kuznechik ( const void * _pData, const uint32_t _iDataSize, const void * _pKey, void * _pResult ) {
+/*void IntermediateEncryptionFunction_GOST_2015_Kuznechik ( const void * _pData, const uint32_t _iDataSize, const void * _pKey, void * _pResult ) {
     //uint64_t iIndex = GetUint64IndexFrom512BitsKey ( _pKey, 0 );
     //iIndex = iIndex % chainActive.Height ();
 
@@ -180,6 +180,53 @@ void IntermediateEncryptionFunction_GOST_2015_Kuznechik ( const void * _pData, c
     encryptBlockWithGost15 ( _pData, ( ( unsigned char * ) _pResult + 16 ) );     // _pData
     encryptBlockWithGost15 ( _pKey, ( ( unsigned char * ) _pResult + 32 ) );      // _pKey
     encryptBlockWithGost15 ( _pData, ( ( unsigned char * ) _pResult + 48 ) );     // _pData
+}*/
+
+void IntermediateEncryptionFunction_GOST_2015_Kuznechik ( const void * _pData, const uint32_t _iDataSize, const void * _pKey, void * _pResult ) {
+    char block_str [ 129 ];
+    //char hash_str [ 129 ];
+    char roundkeys_str [ 401 ];
+
+    //uint32_t hash [ 1 ] [ 16 ];
+
+    //uint64_t iIndex = GetUint64IndexFrom512BitsKey ( _pKey, 0 );
+    //iIndex = iIndex % chainActive.Height ();
+
+    //memcpy ( hash [ 0 ], _pData, 64 );
+
+    bin2hex(roundkeys_str, (unsigned char *) _pData, 200 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : roundkeys_str : %s.", roundkeys_str );
+
+    bin2hex(block_str, (unsigned char *) _pResult, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
+
+    bin2hex(block_str, (unsigned char *) _pKey, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pKey : %s.", block_str );
+    encryptBlockWithGost15 ( _pKey, ( ( unsigned char * ) _pResult ) );           // _pKey
+    bin2hex(block_str, (unsigned char *) _pResult, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
+
+    bin2hex(block_str, (unsigned char *) _pData, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pData : %s.", block_str );
+    encryptBlockWithGost15 ( _pData, ( ( unsigned char * ) _pResult + 16 ) );     // _pData
+    bin2hex(block_str, (unsigned char *) _pResult, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
+
+    /*decryptBlockWithGost15 ( _pData, ( ( unsigned char * ) _pResult + 16 ) );
+    bin2hex(block_str, (unsigned char *) _pResult, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult decrypted : %s.", block_str );*/
+
+    bin2hex(block_str, (unsigned char *) _pKey, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pKey : %s.", block_str );
+    encryptBlockWithGost15 ( _pKey, ( ( unsigned char * ) _pResult + 32 ) );      // _pKey
+    bin2hex(block_str, (unsigned char *) _pResult, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
+
+    bin2hex(block_str, (unsigned char *) _pData, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pData : %s.", block_str );
+    encryptBlockWithGost15 ( _pData, ( ( unsigned char * ) _pResult + 48 ) );     // _pData
+    bin2hex(block_str, (unsigned char *) _pResult, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
 }
 
 void IntermediateEncryptionFunction_ThreeFish ( const void * _pData, const uint32_t _iDataSize, const void * _pKey, void * _pResult ) {
