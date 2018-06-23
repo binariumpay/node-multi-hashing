@@ -183,7 +183,7 @@ void IntermediateHashFunction_Whirlpool ( const void * _pData, const uint32_t _i
 }*/
 
 void IntermediateEncryptionFunction_GOST_2015_Kuznechik ( const void * _pData, const uint32_t _iDataSize, const void * _pKey, void * _pResult ) {
-    char block_str [ 129 ];
+    /*char block_str [ 129 ];
     //char hash_str [ 129 ];
     char roundkeys_str [ 401 ];
 
@@ -201,32 +201,32 @@ void IntermediateEncryptionFunction_GOST_2015_Kuznechik ( const void * _pData, c
     fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
 
     bin2hex(block_str, (unsigned char *) _pKey, 64 );
-    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pKey : %s.", block_str );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pKey : %s.", block_str );*/
     encryptBlockWithGost15 ( _pKey, ( ( unsigned char * ) _pResult ) );           // _pKey
-    bin2hex(block_str, (unsigned char *) _pResult, 64 );
+    /*bin2hex(block_str, (unsigned char *) _pResult, 64 );
     fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
 
     bin2hex(block_str, (unsigned char *) _pData, 64 );
-    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pData : %s.", block_str );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pData : %s.", block_str );*/
     encryptBlockWithGost15 ( _pData, ( ( unsigned char * ) _pResult + 16 ) );     // _pData
-    bin2hex(block_str, (unsigned char *) _pResult, 64 );
-    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
+    /*bin2hex(block_str, (unsigned char *) _pResult, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );*/
 
     /*decryptBlockWithGost15 ( _pData, ( ( unsigned char * ) _pResult + 16 ) );
     bin2hex(block_str, (unsigned char *) _pResult, 64 );
     fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult decrypted : %s.", block_str );*/
 
-    bin2hex(block_str, (unsigned char *) _pKey, 64 );
-    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pKey : %s.", block_str );
+    /*bin2hex(block_str, (unsigned char *) _pKey, 64 );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pKey : %s.", block_str );*/
     encryptBlockWithGost15 ( _pKey, ( ( unsigned char * ) _pResult + 32 ) );      // _pKey
-    bin2hex(block_str, (unsigned char *) _pResult, 64 );
+    /*bin2hex(block_str, (unsigned char *) _pResult, 64 );
     fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
 
     bin2hex(block_str, (unsigned char *) _pData, 64 );
-    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pData : %s.", block_str );
+    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pData : %s.", block_str );*/
     encryptBlockWithGost15 ( _pData, ( ( unsigned char * ) _pResult + 48 ) );     // _pData
-    bin2hex(block_str, (unsigned char *) _pResult, 64 );
-    fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
+    //bin2hex(block_str, (unsigned char *) _pResult, 64 );
+    //fprintf ( stdout, "DEBUG: IntermediateEncryptionFunction_GOST_2015_Kuznechik () : _pResult : %s.", block_str );
 }
 
 void IntermediateEncryptionFunction_ThreeFish ( const void * _pData, const uint32_t _iDataSize, const void * _pKey, void * _pResult ) {
@@ -410,41 +410,41 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
 
 
 
-    bin2hex ( hash_str, ( unsigned char * ) input, 80 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : block_str : %s.\n", block_str );
+    //bin2hex ( hash_str, ( unsigned char * ) input, 80 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : block_str : %s.\n", block_str );
 
     // blake512
     aIntermediateHashFunctions [ 0 ] ( input, len, NULL, hash [ 0 ] );
-    bin2hex ( hash_str, ( unsigned char * ) hash [ 0 ], 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : blake512 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) hash [ 0 ], 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : blake512 : %s.\n", hash_str );
 
     // bmw512
     aIntermediateHashFunctions [ 1 ] ( hash [ 0 ], 64, NULL, uint512AdditionalHash );
-    bin2hex ( hash_str, ( unsigned char * ) uint512AdditionalHash, 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : bmw512 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) uint512AdditionalHash, 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : bmw512 : %s.\n", hash_str );
 
     iWeekNumber = _iTimeFromGenesisBlock / I_ALGORITHM_RECONFIGURATION_TIME_PERIOD_IN_SECONDS * I_ALGORITHM_RECONFIGURATION_TIME_PERIOD_IN_SECONDS;
     iIndex = ( iWeekNumber + * p_nBits ) % I_AMOUNT_OF_INTERMEDIATE_HASH_FUNCTIONS;
     aIntermediateHashFunctions [ iIndex ] ( uint512AdditionalHash, 64, NULL, hash [ 1 ] );
-    bin2hex ( hash_str, ( unsigned char * ) hash [ 1 ], 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : aIntermediateHashFunctions 1 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) hash [ 1 ], 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : aIntermediateHashFunctions 1 : %s.\n", hash_str );
 
     // groestl512
     aIntermediateHashFunctions [ 2 ] ( hash [ 1 ], 64, NULL, hash [ 2 ] );
-    bin2hex ( hash_str, ( unsigned char * ) hash [ 2 ], 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : groestl512 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) hash [ 2 ], 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : groestl512 : %s.\n", hash_str );
 
     // skein512
     aIntermediateHashFunctions [ 5 ] ( hash [ 2 ], 64, NULL, ( (unsigned char *) uint1024CombinedHashes + 64 ) );
-    bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 128 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : skein512 : %s.\n", hash_1024_str );
+    //bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 128 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : skein512 : %s.\n", hash_1024_str );
 
     //-Streebog.--------------------------------------
     // jh512    
 
     aIntermediateHashFunctions [ 3 ] ( ( (unsigned char *) uint1024CombinedHashes + 64 ), 64, NULL, uint1024CombinedHashes );
-    bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 128 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : jh512 : %s.\n", hash_1024_str );
+    //bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 128 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : jh512 : %s.\n", hash_1024_str );
 
 
 
@@ -488,69 +488,69 @@ void Binarium_hash_v1_hash_Implementation(const char* input, char* output, uint3
 
     } //-for
 
-    bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 128 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : Memory-hard hashing function : %s.\n", hash_1024_str );
+    //bin2hex ( hash_1024_str, ( unsigned char * ) uint1024CombinedHashes, 128 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : Memory-hard hashing function : %s.\n", hash_1024_str );
 
     //-Whirlpool--------------------------------------
     // keccak512
     aIntermediateHashFunctions [ 4 ] ( uint1024CombinedHashes, 128, NULL, hash[5] );
-    bin2hex ( hash_str, ( unsigned char * ) hash [ 5 ], 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : keccak512 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) hash [ 5 ], 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : keccak512 : %s.\n", hash_str );
 
     //-SWIFFT.----------------------------------------
     // luffa512
     aIntermediateHashFunctions [ 6 ] ( hash[5], 64, NULL, hash[6] );
-    bin2hex ( hash_str, ( unsigned char * ) hash [ 6 ], 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : luffa512 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) hash [ 6 ], 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : luffa512 : %s.\n", hash_str );
 
     // cubehash512
     aIntermediateHashFunctions [ 7 ] ( hash[6], 64, NULL, hash[7] );
-    bin2hex ( hash_str, ( unsigned char * ) hash [ 7 ], 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : cubehash512 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) hash [ 7 ], 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : cubehash512 : %s.\n", hash_str );
 
     //-GOST 2015_Kuznechik.---------------------------
     memcpy ( hash [ 6 ], hash [ 7 ], 64 );
     iIndex = ( iWeekNumber + * p_nBits ) % I_AMOUNT_OF_INTERMEDIATE_ENCRYPTION_FUNCTIONS;
     aIntermediateEncryptionFunctions [ iIndex ] ( hash[6], 64, hash[0], hash[7] );
-    bin2hex ( hash_str, ( unsigned char * ) hash [ 7 ], 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : aIntermediateEncryptionFunctions 1 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) hash [ 7 ], 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : aIntermediateEncryptionFunctions 1 : %s.\n", hash_str );
 
     // shavite512
     aIntermediateHashFunctions [ 8 ] ( hash[7], 64, NULL, hash[8] );
-    bin2hex ( hash_str, ( unsigned char * ) hash [ 8 ], 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : shavite512 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) hash [ 8 ], 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : shavite512 : %s.\n", hash_str );
 
     //---ThreeFish.----------------------------------
 
     // simd512
     aIntermediateHashFunctions [ 9 ] ( hash[8], 64, NULL, uint512AdditionalHash );
-    bin2hex ( hash_str, ( unsigned char * ) uint512AdditionalHash, 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : simd512 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) uint512AdditionalHash, 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : simd512 : %s.\n", hash_str );
 
     iIndex = ( iWeekNumber + * p_nBits + 10 ) % I_AMOUNT_OF_INTERMEDIATE_HASH_FUNCTIONS;
     aIntermediateHashFunctions [ iIndex ] ( uint512AdditionalHash, 64, NULL, hash[9] );
-    bin2hex ( hash_str, ( unsigned char * ) hash [ 9 ], 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : aIntermediateHashFunctions 2 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) hash [ 9 ], 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : aIntermediateHashFunctions 2 : %s.\n", hash_str );
 
     //---Camellia.-----------------------------------    
 
     // echo512
     aIntermediateHashFunctions [ 10 ] ( hash[9], 64, NULL, hash[10] );
-    bin2hex ( hash_str, ( unsigned char * ) hash [ 10 ], 64 );
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : echo512 : %s.\n", hash_str );
+    //bin2hex ( hash_str, ( unsigned char * ) hash [ 10 ], 64 );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : echo512 : %s.\n", hash_str );
 
 
 
     //return hash[10].trim256();
     memcpy ( output, hash[10], 32 );
 
-    bin2hex ( hash_str, ( unsigned char * ) output, 32 );
+    //bin2hex ( hash_str, ( unsigned char * ) output, 32 );
     //applog ( LOG_DEBUG, "DEBUG: Binarium_hash_v1_hash_Implementation () : resulting hash : %s.\n", hash_str );
     //std::
     //cout << "DEBUG: Binarium_hash_v1_hash_Implementation () : resulting hash : " << hash_str << " .\n";
     //isolate->ThrowException(Exception::TypeError(
     //    String::NewFromUtf8(isolate, "Wrong number of arguments")));
-    fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : resulting hash : %s.\n", hash_str );
+    //fprintf ( stdout, "DEBUG: Binarium_hash_v1_hash_Implementation () : resulting hash : %s.\n", hash_str );
 
 }
 
@@ -558,25 +558,25 @@ void Binarium_hash_v1_hash(const char* input, char* output, uint32_t len)
 {
     HashGenerator_Init ();
 
-    char Data [ 200 ];
-    memset ( Data, 0, sizeof ( Data ) );
+    //char Data [ 200 ];
+    //memset ( Data, 0, sizeof ( Data ) );
 
     uint32_t iTimeFromGenesisBlock;
     //uint32_t iAlgorithmSelector;
     //uint32_t iHashFunctionsAmount;
-    //uint32_t * p_nTime = ( input + 4 + 32 + 32 );
-    uint32_t * p_nTime = ( Data + 4 + 32 + 32 );
+    uint32_t * p_nTime = ( input + 4 + 32 + 32 );
+    //uint32_t * p_nTime = ( Data + 4 + 32 + 32 );
 
     iTimeFromGenesisBlock = * p_nTime - GenesisBlock_nTime;
     //iHashFunctionsAmount = 2;
     //iAlgorithmSelector = iTimeFromGenesisBlock < 3528000 ? 0 : 1;
 
     //return (this->*(aHashFunctions[iAlgorithmSelector]))( pPrevBlockIndex, iTimeFromGenesisBlock );
-    //if ( iTimeFromGenesisBlock >= 3528000 ) {
-        //Binarium_hash_v1_hash_Implementation ( input, output, len, iTimeFromGenesisBlock );
-    Binarium_hash_v1_hash_Implementation ( Data, output, len, iTimeFromGenesisBlock );
+    if ( iTimeFromGenesisBlock >= 3528000 ) {
+        Binarium_hash_v1_hash_Implementation ( input, output, len, iTimeFromGenesisBlock );
+        //Binarium_hash_v1_hash_Implementation ( Data, output, len, iTimeFromGenesisBlock );
 
-    /*} else
-        x11_hash ( input, output, len );*/
+    } else
+        x11_hash ( input, output, len );
 
 }
